@@ -1,0 +1,107 @@
+/* auth.css — standalone auth page styles
+   Tailwind v4: @reference is required in files that use @apply
+   but are NOT the main index.css entry point              */
+@reference "tailwindcss";
+
+/* ── Animated mesh gradient background ────────────────────── */
+@keyframes mesh-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes float-orb {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50%       { transform: translateY(-20px) scale(1.05); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Entry animation ───────────────────────────────────────── */
+.auth-panel {
+  animation: slide-up 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ── Animated visual panel ─────────────────────────────────── */
+.auth-visual {
+  background: linear-gradient(
+    135deg,
+    #0f0c29 0%,
+    #1a1060 25%,
+    #24243e 50%,
+    #0f3460 75%,
+    #16213e 100%
+  );
+  background-size: 300% 300%;
+  animation: mesh-shift 12s ease infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Floating orbs ─────────────────────────────────────────── */
+.auth-orb-1 {
+  background: radial-gradient(circle, rgba(99,102,241,0.4) 0%, transparent 70%);
+  animation: float-orb 6s ease-in-out infinite;
+  position: absolute;
+  border-radius: 50%;
+}
+.auth-orb-2 {
+  background: radial-gradient(circle, rgba(168,85,247,0.3) 0%, transparent 70%);
+  animation: float-orb 8s ease-in-out infinite reverse;
+  position: absolute;
+  border-radius: 50%;
+}
+.auth-orb-3 {
+  background: radial-gradient(circle, rgba(59,130,246,0.25) 0%, transparent 70%);
+  animation: float-orb 10s ease-in-out infinite;
+  position: absolute;
+  border-radius: 50%;
+}
+
+/* ── Shared auth input ─────────────────────────────────────── */
+.auth-input {
+  @apply w-full pl-12 pr-4 py-3.5 rounded-xl text-sm
+         text-gray-900 dark:text-slate-100
+         bg-white/80 dark:bg-slate-800/80
+         border border-gray-200 dark:border-slate-600
+         placeholder:text-gray-400 dark:placeholder:text-slate-500
+         backdrop-blur-sm
+         outline-none
+         transition-all duration-200
+         hover:border-gray-300 dark:hover:border-slate-500
+         focus:border-indigo-500 dark:focus:border-indigo-400
+         focus:ring-2 focus:ring-indigo-500/20 dark:focus:ring-indigo-400/20
+         focus:bg-white dark:focus:bg-slate-800;
+}
+
+/* ── Password strength bar segment ────────────────────────── */
+.strength-bar {
+  @apply h-1 rounded-full transition-all duration-500;
+}
+
+/* ── Step indicator dots ───────────────────────────────────── */
+.step-dot        { @apply w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-all duration-300; }
+.step-dot.active { @apply bg-white text-indigo-700 shadow-lg; }
+.step-dot.inactive { @apply bg-white/20 text-white/60; }
+
+/* ── Step connector lines ──────────────────────────────────── */
+.step-line         { @apply h-px w-10 transition-all duration-300; }
+.step-line.active  { @apply bg-white; }
+.step-line.inactive { @apply bg-white/20; }
+
+/* ── Feature chip (visual panel) ──────────────────────────── */
+.feature-chip {
+  @apply px-4 py-2 bg-white/10 border border-white/10
+         backdrop-blur-sm rounded-full text-sm text-white/90
+         hover:bg-white/20 transition-colors duration-200;
+}
+
+/* ── Stat card (visual panel) ──────────────────────────────── */
+.stat-card {
+  @apply bg-white/10 border border-white/10 backdrop-blur-sm
+         rounded-2xl px-5 py-4 hover:bg-white/15 transition-all duration-300;
+}
