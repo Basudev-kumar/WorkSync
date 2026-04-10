@@ -4,7 +4,7 @@ import { BASE_URL } from "./apiPaths";
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
-  timeout: 10000, // 10 seconds
+  timeout: 30000, // 30 seconds for render cold starts
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
@@ -33,8 +33,11 @@ axiosInstance.interceptors.response.use(
       const status = error.response.status;
 
       if (status === 401) {
-        // Unauthenticated - redirect to login
-        window.location.href = "/login";
+        // Unauthenticated - redirect to login (only if not already on auth pages)
+        const isAuthPage = window.location.pathname === "/login" || window.location.pathname === "/signUp";
+        if (!isAuthPage) {
+          window.location.href = "/login";
+        }
       } else if (status === 500) {
         console.error("Server error. Please try again later.");
       }

@@ -16,7 +16,7 @@ router.put("/profile",protect , updateUserProfile);      // update Profile
 
 
 // Image upload — protected: only authenticated users can upload
-router.post("/upload-image", protect, upload.single("image"), (req, res) => {
+router.post("/upload-image", upload.single("image"), (req, res) => {
     if (!req.file) {
         return res.status(400).json({ message: "No file uploaded" });
     }

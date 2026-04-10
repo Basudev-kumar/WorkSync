@@ -27,7 +27,7 @@ const registerUser = async (req,res) =>{
 
         // Determine user role: Admin if correct token is provided , otherwise member
         let role = "member";
-        if (adminInviteToken == process.env.ADMIN_INVITE_TOKEN) {
+        if (adminInviteToken === process.env.ADMIN_INVITE_TOKEN) {
             role = "admin";
         }
 

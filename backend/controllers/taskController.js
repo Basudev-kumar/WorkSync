@@ -157,12 +157,12 @@ const updateTask = async (req, res) => {
       return res.status(404).json({ message: "Task not found" });
     }
 
-    task.title = req.body.title || task.title;
-    task.description = req.body.description || task.description;
+    task.title = req.body.title !== undefined ? req.body.title : task.title;
+    task.description = req.body.description !== undefined ? req.body.description : task.description;
     task.priority = req.body.priority || task.priority;
     task.dueDate = req.body.dueDate || task.dueDate;
     task.todoChecklist = req.body.todoChecklist || task.todoChecklist;
-    task.attachments = req.body.attachments || task.attachments;
+    task.attachments = req.body.attachments !== undefined ? req.body.attachments : task.attachments;
 
     if (req.body.assignedTo) {
       if (!Array.isArray(req.body.assignedTo)) {
@@ -171,6 +171,21 @@ const updateTask = async (req, res) => {
         });
       }
       task.assignedTo = req.body.assignedTo;
+    }
+
+    // Auto-update progress and status if checklist was modified
+    if (req.body.todoChecklist) {
+      const completedCount = task.todoChecklist.filter(item => item.completed).length;
+      const totalItems = task.todoChecklist.length;
+      task.progress = totalItems > 0 ? Math.round((completedCount / totalItems) * 100) : 0;
+      
+      if (task.progress === 100) {
+        task.status = "Completed";
+      } else if (task.progress > 0) {
+        task.status = "In Progress";
+      } else {
+        task.status = "Pending";
+      }
     }
 
     await task.save();
